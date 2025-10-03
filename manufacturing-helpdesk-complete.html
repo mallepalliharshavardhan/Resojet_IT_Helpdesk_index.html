@@ -1,0 +1,1422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manufacturing Helpdesk System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #64748b;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --background-color: #f8fafc;
+            --surface-color: #ffffff;
+            --text-color: #1e293b;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .app {
+            min-height: 100vh;
+        }
+
+        /* Navigation */
+        .navbar {
+            background: var(--surface-color);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .navbar__brand h2 {
+            color: var(--primary-color);
+            font-weight: 700;
+        }
+
+        .navbar__nav {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .nav-btn {
+            padding: 0.5rem 1rem;
+            background: transparent;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.875rem;
+        }
+
+        .nav-btn:hover {
+            background: var(--background-color);
+        }
+
+        .nav-btn.active {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .navbar__user select {
+            padding: 0.5rem;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            background: white;
+        }
+
+        /* Sections */
+        .section {
+            display: none;
+            padding: 2rem;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            color: var(--text-color);
+            margin-bottom: 2rem;
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        /* Cards */
+        .card {
+            background: var(--surface-color);
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .card__body {
+            padding: 1.5rem;
+        }
+
+        .card__header {
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            font-weight: 600;
+        }
+
+        /* Summary Cards */
+        .summary-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .summary-card .card__body {
+            text-align: center;
+        }
+
+        .summary-card h3 {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .summary-card p {
+            color: var(--text-muted);
+            font-size: 0.875rem;
+        }
+
+        /* Forms */
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--text-color);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 0.875rem;
+            transition: border-color 0.2s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .form-control[readonly] {
+            background-color: var(--background-color);
+            color: var(--text-muted);
+        }
+
+        textarea.form-control {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        /* Radio buttons */
+        .radio-group {
+            display: flex;
+            gap: 1rem;
+            margin-top: 0.5rem;
+        }
+
+        .radio-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #1d4ed8;
+        }
+
+        .btn-success {
+            background: var(--success-color);
+            color: white;
+        }
+
+        .btn-warning {
+            background: var(--warning-color);
+            color: white;
+        }
+
+        .btn-danger {
+            background: var(--danger-color);
+            color: white;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+        }
+
+        .btn-outline:hover {
+            background: var(--background-color);
+        }
+
+        /* Tables */
+        .table-container {
+            overflow-x: auto;
+            background: var(--surface-color);
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            background: var(--background-color);
+            font-weight: 600;
+            color: var(--text-color);
+        }
+
+        tbody tr:hover {
+            background: rgba(37, 99, 235, 0.05);
+        }
+
+        /* Status badges */
+        .status-badge {
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            text-transform: uppercase;
+        }
+
+        .status-open {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--danger-color);
+        }
+
+        .status-in-progress {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--warning-color);
+        }
+
+        .status-resolved {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success-color);
+        }
+
+        /* Priority badges */
+        .priority-high {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--danger-color);
+        }
+
+        .priority-medium {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--warning-color);
+        }
+
+        .priority-low {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success-color);
+        }
+
+        /* Filters */
+        .filters {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .filter-group label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .filter-group select,
+        .filter-group input {
+            padding: 0.5rem;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            font-size: 0.875rem;
+        }
+
+        /* Charts placeholder */
+        .chart-container {
+            background: var(--surface-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .chart-placeholder {
+            height: 300px;
+            background: linear-gradient(45deg, var(--background-color), rgba(37, 99, 235, 0.1));
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            font-style: italic;
+        }
+
+        /* Alert messages */
+        .alert {
+            padding: 1rem;
+            border-radius: 6px;
+            margin-bottom: 1rem;
+            font-size: 0.875rem;
+        }
+
+        .alert-success {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success-color);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+        }
+
+        .alert-error {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--danger-color);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal__content {
+            background: var(--surface-color);
+            border-radius: 8px;
+            padding: 2rem;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal__header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal__close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-muted);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .navbar__nav {
+                flex-wrap: wrap;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .filters {
+                flex-direction: column;
+            }
+
+            .section {
+                padding: 1rem;
+            }
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* Custom styles for better UX */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .department-breakdown {
+            margin-top: 1rem;
+        }
+
+        .department-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .export-buttons {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="app">
+        <!-- Navigation -->
+        <nav class="navbar">
+            <div class="navbar__brand">
+                <h2>Manufacturing Helpdesk</h2>
+            </div>
+            <div class="navbar__nav">
+                <button class="nav-btn active" data-section="dashboard">Dashboard</button>
+                <button class="nav-btn" data-section="submit-ticket">Submit Ticket</button>
+                <button class="nav-btn" data-section="ticket-tracker">Ticket Tracker</button>
+                <button class="nav-btn" data-section="analytics">Analytics</button>
+                <button class="nav-btn" data-section="admin" id="admin-nav">Admin Panel</button>
+            </div>
+            <div class="navbar__user">
+                <select id="user-role" class="form-control">
+                    <option value="user">Regular User</option>
+                    <option value="admin">Admin User</option>
+                </select>
+            </div>
+        </nav>
+
+        <!-- Dashboard Section -->
+        <section id="dashboard" class="section active">
+            <div class="container">
+                <h1>Dashboard</h1>
+                <div class="summary-cards">
+                    <div class="card summary-card">
+                        <div class="card__body">
+                            <h3 id="tickets-today">0</h3>
+                            <p>Tickets Today</p>
+                        </div>
+                    </div>
+                    <div class="card summary-card">
+                        <div class="card__body">
+                            <h3 id="resolved-today">0</h3>
+                            <p>Resolved Today</p>
+                        </div>
+                    </div>
+                    <div class="card summary-card">
+                        <div class="card__body">
+                            <h3 id="open-tickets">0</h3>
+                            <p>Open Tickets</p>
+                        </div>
+                    </div>
+                    <div class="card summary-card">
+                        <div class="card__body">
+                            <h3 id="in-progress-tickets">0</h3>
+                            <p>In Progress</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card__header">
+                        <h3>Department Breakdown</h3>
+                    </div>
+                    <div class="card__body">
+                        <div id="department-breakdown" class="department-breakdown">
+                            <!-- Dynamic content -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Submit Ticket Section -->
+        <section id="submit-ticket" class="section">
+            <div class="container">
+                <h1>Submit New Ticket</h1>
+                <div class="card">
+                    <div class="card__body">
+                        <form id="ticket-form">
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label class="form-label">Name *</label>
+                                    <input type="text" name="name" class="form-control" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Department *</label>
+                                    <select name="department" class="form-control" required>
+                                        <option value="">Select Department</option>
+                                        <option value="Production">Production</option>
+                                        <option value="Quality Control">Quality Control</option>
+                                        <option value="Maintenance">Maintenance</option>
+                                        <option value="Engineering">Engineering</option>
+                                        <option value="IT Support">IT Support</option>
+                                        <option value="Admin">Admin</option>
+                                        <option value="Logistics">Logistics</option>
+                                        <option value="Safety">Safety</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Contact Info *</label>
+                                    <input type="text" name="contact" class="form-control" placeholder="Email or Phone" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Machine/Workstation ID</label>
+                                    <input type="text" name="machineId" class="form-control" placeholder="Optional">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Priority Level *</label>
+                                    <select name="priority" class="form-control" required>
+                                        <option value="">Select Priority</option>
+                                        <option value="Low">Low</option>
+                                        <option value="Medium">Medium</option>
+                                        <option value="High">High</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Category *</label>
+                                <div class="radio-group">
+                                    <div class="radio-item">
+                                        <input type="radio" name="category" value="Hardware" id="cat-hardware" required>
+                                        <label for="cat-hardware">Hardware</label>
+                                    </div>
+                                    <div class="radio-item">
+                                        <input type="radio" name="category" value="Software" id="cat-software" required>
+                                        <label for="cat-software">Software</label>
+                                    </div>
+                                    <div class="radio-item">
+                                        <input type="radio" name="category" value="Network" id="cat-network" required>
+                                        <label for="cat-network">Network</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Request Type *</label>
+                                <div class="radio-group">
+                                    <div class="radio-item">
+                                        <input type="radio" name="requestType" value="Service Request" id="req-service" required>
+                                        <label for="req-service">Service Request</label>
+                                    </div>
+                                    <div class="radio-item">
+                                        <input type="radio" name="requestType" value="Issue Report" id="req-issue" required>
+                                        <label for="req-issue">Issue Report</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Issue Specification *</label>
+                                <select name="issue" class="form-control" id="issue-select" required>
+                                    <option value="">Select category first</option>
+                                </select>
+                                <input type="text" name="customIssue" class="form-control hidden" placeholder="Please specify other issue">
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Description *</label>
+                                <textarea name="description" class="form-control" placeholder="Describe the issue in detail" required></textarea>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary">Submit Ticket</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Ticket Tracker Section -->
+        <section id="ticket-tracker" class="section">
+            <div class="container">
+                <h1>Ticket Tracker</h1>
+                
+                <div class="filters">
+                    <div class="filter-group">
+                        <label>Status</label>
+                        <select id="filter-status" class="form-control">
+                            <option value="">All Status</option>
+                            <option value="Open">Open</option>
+                            <option value="In-progress">In-progress</option>
+                            <option value="Resolved">Resolved</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label>Category</label>
+                        <select id="filter-category" class="form-control">
+                            <option value="">All Categories</option>
+                            <option value="Hardware">Hardware</option>
+                            <option value="Software">Software</option>
+                            <option value="Network">Network</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label>Department</label>
+                        <select id="filter-department" class="form-control">
+                            <option value="">All Departments</option>
+                            <option value="Production">Production</option>
+                            <option value="Quality Control">Quality Control</option>
+                            <option value="Maintenance">Maintenance</option>
+                            <option value="Engineering">Engineering</option>
+                            <option value="IT Support">IT Support</option>
+                            <option value="Admin">Admin</option>
+                            <option value="Logistics">Logistics</option>
+                            <option value="Safety">Safety</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label>Search</label>
+                        <input type="text" id="search-tickets" class="form-control" placeholder="Search tickets...">
+                    </div>
+                </div>
+
+                <div class="export-buttons">
+                    <button class="btn btn-outline" onclick="helpdesk.exportToCSV()">Export CSV</button>
+                    <button class="btn btn-outline" onclick="helpdesk.exportToPDF()">Export PDF</button>
+                </div>
+
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Department</th>
+                                <th>Category</th>
+                                <th>Issue</th>
+                                <th>Priority</th>
+                                <th>Status</th>
+                                <th>Date Created</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tickets-table">
+                            <!-- Dynamic content -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Analytics Section -->
+        <section id="analytics" class="section">
+            <div class="container">
+                <h1>Analytics & Reports</h1>
+                
+                <div class="stats-grid">
+                    <div class="card">
+                        <div class="card__header">Weekly Resolution Rate</div>
+                        <div class="card__body">
+                            <div class="chart-placeholder">Weekly Resolution Chart</div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card__header">Most Common Issues</div>
+                        <div class="card__body">
+                            <div id="common-issues">
+                                <!-- Dynamic content -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card__header">Average Resolution Time</div>
+                        <div class="card__body">
+                            <div class="chart-placeholder">Resolution Time Chart</div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card__header">Category Distribution</div>
+                        <div class="card__body">
+                            <div class="chart-placeholder">Category Distribution Chart</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Admin Panel Section -->
+        <section id="admin" class="section">
+            <div class="container">
+                <h1>Admin Panel</h1>
+                
+                <div class="card">
+                    <div class="card__header">Ticket Management</div>
+                    <div class="card__body">
+                        <div class="table-container">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>User</th>
+                                        <th>Category</th>
+                                        <th>Issue</th>
+                                        <th>Status</th>
+                                        <th>Assigned To</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="admin-tickets-table">
+                                    <!-- Dynamic content -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-grid" style="margin-top: 2rem;">
+                    <div class="card">
+                        <div class="card__header">Add User/Department</div>
+                        <div class="card__body">
+                            <div class="form-group">
+                                <label class="form-label">User Name</label>
+                                <input type="text" id="new-user-name" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Department</label>
+                                <input type="text" id="new-user-dept" class="form-control">
+                            </div>
+                            <button class="btn btn-primary" onclick="helpdesk.addUser()">Add User</button>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card__header">Add Technician</div>
+                        <div class="card__body">
+                            <div class="form-group">
+                                <label class="form-label">Technician Name</label>
+                                <input type="text" id="new-tech-name" class="form-control">
+                            </div>
+                            <button class="btn btn-primary" onclick="helpdesk.addTechnician()">Add Technician</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Modal for ticket details -->
+    <div id="ticket-modal" class="modal">
+        <div class="modal__content">
+            <div class="modal__header">
+                <h3>Ticket Details</h3>
+                <button class="modal__close" onclick="helpdesk.closeModal()">&times;</button>
+            </div>
+            <div id="modal-body">
+                <!-- Dynamic content -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        class HelpdeskSystem {
+            constructor() {
+                this.currentUser = 'user';
+                this.currentTicket = null;
+                
+                this.issueSpecs = {
+                    Hardware: [
+                        'Not powering on',
+                        'Blank screen', 
+                        'Blue screen',
+                        'OS not loading',
+                        'BIOS error',
+                        'Keyboard not working',
+                        'Mouse not working',
+                        'Monitor/display not working',
+                        'Office printer not working',
+                        'Production printer not working',
+                        'Adaptor not working',
+                        'Auto-restart',
+                        'Scanner not working',
+                        'Network not connecting (hardware-related)',
+                        'Other'
+                    ],
+                    Software: [
+                        'Application not installing',
+                        'AutoCAD issue',
+                        'NX issue', 
+                        'Microsoft 365 issue',
+                        'Adobe Suite issue',
+                        'Outlook issue',
+                        'Web page not connecting',
+                        'Unable to log in',
+                        'Password unlock/reset',
+                        'Other'
+                    ],
+                    Network: [
+                        'No internet connectivity',
+                        'Slow network speed',
+                        'VPN failure',
+                        'Server unreachable',
+                        'Other'
+                    ]
+                };
+
+                this.initializeData();
+                this.initializeEventListeners();
+                this.updateDashboard();
+                this.updateTicketTable();
+                this.updateAdminTable();
+                this.updateAnalytics();
+            }
+
+            initializeData() {
+                if (!localStorage.getItem('helpdesk_tickets')) {
+                    const sampleData = {
+                        tickets: [
+                            {
+                                id: "TKT-001",
+                                name: "John Smith",
+                                department: "Production",
+                                contact: "john.smith@company.com",
+                                machineId: "PROD-LINE-01",
+                                priority: "High",
+                                category: "Hardware",
+                                requestType: "Issue Report",
+                                issue: "Not powering on",
+                                description: "Production line machine won't start this morning, red error light is on",
+                                status: "Open",
+                                dateCreated: new Date().toISOString(),
+                                assignedTo: "",
+                                resolutionNotes: ""
+                            },
+                            {
+                                id: "TKT-002",
+                                name: "Sarah Johnson", 
+                                department: "Engineering",
+                                contact: "sarah.j@company.com",
+                                machineId: "ENG-CAD-05",
+                                priority: "Medium",
+                                category: "Software",
+                                requestType: "Issue Report",
+                                issue: "AutoCAD issue",
+                                description: "AutoCAD crashes when trying to open large assembly files",
+                                status: "In-progress",
+                                dateCreated: new Date(Date.now() - 86400000).toISOString(),
+                                assignedTo: "Tech Support Team",
+                                resolutionNotes: "Investigating memory allocation issues"
+                            },
+                            {
+                                id: "TKT-003",
+                                name: "Mike Wilson",
+                                department: "Quality Control",
+                                contact: "mike.wilson@company.com",
+                                machineId: "",
+                                priority: "Low",
+                                category: "Network",
+                                requestType: "Service Request", 
+                                issue: "Slow network speed",
+                                description: "Network is very slow in QC lab, affecting data uploads",
+                                status: "Resolved",
+                                dateCreated: new Date(Date.now() - 172800000).toISOString(),
+                                assignedTo: "Network Admin",
+                                resolutionNotes: "Replaced faulty network switch, speed restored"
+                            }
+                        ],
+                        technicians: ["Tech Support Team", "Network Admin", "Hardware Specialist", "Software Support"],
+                        users: [
+                            {name: "Admin User", role: "admin", department: "IT Support"},
+                            {name: "Regular User", role: "user", department: "Production"}
+                        ]
+                    };
+                    
+                    localStorage.setItem('helpdesk_tickets', JSON.stringify(sampleData.tickets));
+                    localStorage.setItem('helpdesk_technicians', JSON.stringify(sampleData.technicians));
+                    localStorage.setItem('helpdesk_users', JSON.stringify(sampleData.users));
+                }
+            }
+
+            initializeEventListeners() {
+                // Navigation
+                document.querySelectorAll('.nav-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        const section = e.target.dataset.section;
+                        this.showSection(section);
+                    });
+                });
+
+                // User role change
+                document.getElementById('user-role').addEventListener('change', (e) => {
+                    this.currentUser = e.target.value;
+                    this.toggleAdminFeatures();
+                });
+
+                // Ticket form
+                document.getElementById('ticket-form').addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    this.submitTicket(e.target);
+                });
+
+                // Category change for dynamic issues
+                document.querySelectorAll('input[name="category"]').forEach(radio => {
+                    radio.addEventListener('change', (e) => {
+                        this.updateIssueOptions(e.target.value);
+                    });
+                });
+
+                // Issue select change for custom input
+                document.getElementById('issue-select').addEventListener('change', (e) => {
+                    const customInput = document.querySelector('input[name="customIssue"]');
+                    if (e.target.value === 'Other') {
+                        customInput.classList.remove('hidden');
+                        customInput.required = true;
+                    } else {
+                        customInput.classList.add('hidden'); 
+                        customInput.required = false;
+                    }
+                });
+
+                // Filters
+                ['filter-status', 'filter-category', 'filter-department', 'search-tickets'].forEach(id => {
+                    document.getElementById(id).addEventListener('change', () => {
+                        this.updateTicketTable();
+                    });
+                    document.getElementById(id).addEventListener('keyup', () => {
+                        this.updateTicketTable();
+                    });
+                });
+
+                // Initialize
+                this.toggleAdminFeatures();
+            }
+
+            showSection(sectionName) {
+                document.querySelectorAll('.section').forEach(section => {
+                    section.classList.remove('active');
+                });
+                document.querySelectorAll('.nav-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+
+                document.getElementById(sectionName).classList.add('active');
+                document.querySelector(`[data-section="${sectionName}"]`).classList.add('active');
+            }
+
+            toggleAdminFeatures() {
+                const adminNav = document.getElementById('admin-nav');
+                if (this.currentUser === 'admin') {
+                    adminNav.style.display = 'block';
+                } else {
+                    adminNav.style.display = 'none';
+                    if (document.getElementById('admin').classList.contains('active')) {
+                        this.showSection('dashboard');
+                    }
+                }
+            }
+
+            updateIssueOptions(category) {
+                const select = document.getElementById('issue-select');
+                select.innerHTML = '<option value="">Select an issue</option>';
+                
+                if (category && this.issueSpecs[category]) {
+                    this.issueSpecs[category].forEach(issue => {
+                        const option = document.createElement('option');
+                        option.value = issue;
+                        option.textContent = issue;
+                        select.appendChild(option);
+                    });
+                }
+            }
+
+            generateTicketId() {
+                const tickets = JSON.parse(localStorage.getItem('helpdesk_tickets') || '[]');
+                const maxId = tickets.reduce((max, ticket) => {
+                    const num = parseInt(ticket.id.split('-')[1]);
+                    return num > max ? num : max;
+                }, 0);
+                return `TKT-${String(maxId + 1).padStart(3, '0')}`;
+            }
+
+            submitTicket(form) {
+                const formData = new FormData(form);
+                const ticketData = {};
+                
+                for (let [key, value] of formData.entries()) {
+                    ticketData[key] = value;
+                }
+
+                // Handle custom issue
+                if (ticketData.issue === 'Other' && ticketData.customIssue) {
+                    ticketData.issue = ticketData.customIssue;
+                }
+                delete ticketData.customIssue;
+
+                // Add system fields
+                ticketData.id = this.generateTicketId();
+                ticketData.dateCreated = new Date().toISOString();
+                ticketData.status = 'Open';
+                ticketData.assignedTo = '';
+                ticketData.resolutionNotes = '';
+
+                // Save to localStorage
+                const tickets = JSON.parse(localStorage.getItem('helpdesk_tickets') || '[]');
+                tickets.push(ticketData);
+                localStorage.setItem('helpdesk_tickets', JSON.stringify(tickets));
+
+                // Show success message
+                this.showAlert('Ticket submitted successfully! Ticket ID: ' + ticketData.id, 'success');
+                
+                // Reset form and update displays
+                form.reset();
+                document.querySelector('input[name="customIssue"]').classList.add('hidden');
+                this.updateDashboard();
+                this.updateTicketTable();
+                this.updateAdminTable();
+                this.updateAnalytics();
+            }
+
+            updateDashboard() {
+                const tickets = JSON.parse(localStorage.getItem('helpdesk_tickets') || '[]');
+                const today = new Date().toDateString();
+
+                const todayTickets = tickets.filter(t => 
+                    new Date(t.dateCreated).toDateString() === today
+                );
+                const resolvedToday = todayTickets.filter(t => t.status === 'Resolved');
+                const openTickets = tickets.filter(t => t.status === 'Open');
+                const inProgressTickets = tickets.filter(t => t.status === 'In-progress');
+
+                document.getElementById('tickets-today').textContent = todayTickets.length;
+                document.getElementById('resolved-today').textContent = resolvedToday.length;
+                document.getElementById('open-tickets').textContent = openTickets.length;
+                document.getElementById('in-progress-tickets').textContent = inProgressTickets.length;
+
+                // Department breakdown
+                const deptBreakdown = {};
+                tickets.forEach(ticket => {
+                    deptBreakdown[ticket.department] = (deptBreakdown[ticket.department] || 0) + 1;
+                });
+
+                const breakdownHtml = Object.entries(deptBreakdown)
+                    .map(([dept, count]) => 
+                        `<div class="department-item">
+                            <span>${dept}</span>
+                            <span>${count} tickets</span>
+                        </div>`
+                    ).join('');
+                
+                document.getElementById('department-breakdown').innerHTML = breakdownHtml;
+            }
+
+            updateTicketTable() {
+                const tickets = JSON.parse(localStorage.getItem('helpdesk_tickets') || '[]');
+                const tbody = document.getElementById('tickets-table');
+                
+                // Apply filters
+                const statusFilter = document.getElementById('filter-status').value;
+                const categoryFilter = document.getElementById('filter-category').value;
+                const departmentFilter = document.getElementById('filter-department').value;
+                const searchTerm = document.getElementById('search-tickets').value.toLowerCase();
+
+                const filteredTickets = tickets.filter(ticket => {
+                    return (
+                        (!statusFilter || ticket.status === statusFilter) &&
+                        (!categoryFilter || ticket.category === categoryFilter) &&
+                        (!departmentFilter || ticket.department === departmentFilter) &&
+                        (!searchTerm || 
+                         ticket.name.toLowerCase().includes(searchTerm) ||
+                         ticket.issue.toLowerCase().includes(searchTerm) ||
+                         ticket.id.toLowerCase().includes(searchTerm) ||
+                         ticket.description.toLowerCase().includes(searchTerm)
+                        )
+                    );
+                });
+
+                const html = filteredTickets.map(ticket => `
+                    <tr>
+                        <td>${ticket.id}</td>
+                        <td>${ticket.name}</td>
+                        <td>${ticket.department}</td>
+                        <td>${ticket.category}</td>
+                        <td>${ticket.issue}</td>
+                        <td><span class="status-badge priority-${ticket.priority.toLowerCase()}">${ticket.priority}</span></td>
+                        <td><span class="status-badge status-${ticket.status.toLowerCase()}">${ticket.status}</span></td>
+                        <td>${new Date(ticket.dateCreated).toLocaleDateString()}</td>
+                        <td>
+                            <button class="btn btn-outline" onclick="helpdesk.viewTicket('${ticket.id}')">View</button>
+                        </td>
+                    </tr>
+                `).join('');
+
+                tbody.innerHTML = html;
+            }
+
+            updateAdminTable() {
+                const tickets = JSON.parse(localStorage.getItem('helpdesk_tickets') || '[]');
+                const technicians = JSON.parse(localStorage.getItem('helpdesk_technicians') || '[]');
+                const tbody = document.getElementById('admin-tickets-table');
+
+                const html = tickets.map(ticket => `
+                    <tr>
+                        <td>${ticket.id}</td>
+                        <td>${ticket.name}</td>
+                        <td>${ticket.category}</td>
+                        <td>${ticket.issue}</td>
+                        <td><span class="status-badge status-${ticket.status.toLowerCase()}">${ticket.status}</span></td>
+                        <td>
+                            <select onchange="helpdesk.assignTicket('${ticket.id}', this.value)" class="form-control">
+                                <option value="">Unassigned</option>
+                                ${technicians.map(tech => 
+                                    `<option value="${tech}" ${ticket.assignedTo === tech ? 'selected' : ''}>${tech}</option>`
+                                ).join('')}
+                            </select>
+                        </td>
+                        <td>
+                            <button class="btn btn-outline" onclick="helpdesk.updateTicketStatus('${ticket.id}')">Update</button>
+                            <button class="btn btn-outline" onclick="helpdesk.viewTicket('${ticket.id}')">View</button>
+                        </td>
+                    </tr>
+                `).join('');
+
+                tbody.innerHTML = html;
+            }
+
+            updateAnalytics() {
+                const tickets = JSON.parse(localStorage.getItem('helpdesk_tickets') || '[]');
+                
+                // Common issues analysis
+                const issueCount = {};
+                tickets.forEach(ticket => {
+                    issueCount[ticket.issue] = (issueCount[ticket.issue] || 0) + 1;
+                });
+
+                const sortedIssues = Object.entries(issueCount)
+                    .sort(([,a], [,b]) => b - a)
+                    .slice(0, 5);
+
+                const commonIssuesHtml = sortedIssues.map(([issue, count]) => 
+                    `<div class="department-item">
+                        <span>${issue}</span>
+                        <span>${count} tickets</span>
+                    </div>`
+                ).join('');
+
+                document.getElementById('common-issues').innerHTML = commonIssuesHtml;
+            }
+
+            viewTicket(ticketId) {
+                const tickets = JSON.parse(localStorage.getItem('helpdesk_tickets') || '[]');
+                const ticket = tickets.find(t => t.id === ticketId);
+                
+                if (!ticket) return;
+
+                const modalBody = document.getElementById('modal-body');
+                modalBody.innerHTML = `
+                    <div class="form-group">
+                        <label class="form-label">Ticket ID</label>
+                        <input type="text" class="form-control" value="${ticket.id}" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Name</label>
+                        <input type="text" class="form-control" value="${ticket.name}" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Department</label>
+                        <input type="text" class="form-control" value="${ticket.department}" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Contact</label>
+                        <input type="text" class="form-control" value="${ticket.contact}" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Machine ID</label>
+                        <input type="text" class="form-control" value="${ticket.machineId || 'N/A'}" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Priority</label>
+                        <input type="text" class="form-control" value="${ticket.priority}" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Category</label>
+                        <input type="text" class="form-control" value="${ticket.category}" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Issue</label>
+                        <input type="text" class="form-control" value="${ticket.issue}" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Description</label>
+                        <textarea class="form-control" readonly>${ticket.description}</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Status</label>
+                        <input type="text" class="form-control" value="${ticket.status}" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Date Created</label>
+                        <input type="text" class="form-control" value="${new Date(ticket.dateCreated).toLocaleString()}" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Assigned To</label>
+                        <input type="text" class="form-control" value="${ticket.assignedTo || 'Unassigned'}" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Resolution Notes</label>
+                        <textarea class="form-control" readonly>${ticket.resolutionNotes || 'No notes yet'}</textarea>
+                    </div>
+                `;
+
+                document.getElementById('ticket-modal').classList.add('active');
+            }
+
+            closeModal() {
+                document.getElementById('ticket-modal').classList.remove('active');
+            }
+
+            assignTicket(ticketId, technician) {
+                const tickets = JSON.parse(localStorage.getItem('helpdesk_tickets') || '[]');
+                const ticket = tickets.find(t => t.id === ticketId);
+                
+                if (ticket) {
+                    ticket.assignedTo = technician;
+                    if (technician && ticket.status === 'Open') {
+                        ticket.status = 'In-progress';
+                    }
+                    localStorage.setItem('helpdesk_tickets', JSON.stringify(tickets));
+                    this.updateDashboard();
+                    this.updateTicketTable();
+                    this.updateAdminTable();
+                    this.showAlert('Ticket assigned successfully!', 'success');
+                }
+            }
+
+            updateTicketStatus(ticketId) {
+                const tickets = JSON.parse(localStorage.getItem('helpdesk_tickets') || '[]');
+                const ticket = tickets.find(t => t.id === ticketId);
+                
+                if (!ticket) return;
+
+                const newStatus = prompt('Enter new status (Open/In-progress/Resolved):', ticket.status);
+                const resolutionNotes = newStatus === 'Resolved' ? 
+                    prompt('Enter resolution notes:', ticket.resolutionNotes || '') : 
+                    ticket.resolutionNotes;
+
+                if (newStatus && ['Open', 'In-progress', 'Resolved'].includes(newStatus)) {
+                    ticket.status = newStatus;
+                    if (resolutionNotes !== null) {
+                        ticket.resolutionNotes = resolutionNotes;
+                    }
+                    localStorage.setItem('helpdesk_tickets', JSON.stringify(tickets));
+                    this.updateDashboard();
+                    this.updateTicketTable();
+                    this.updateAdminTable();
+                    this.updateAnalytics();
+                    this.showAlert('Ticket updated successfully!', 'success');
+                }
+            }
+
+            addUser() {
+                const name = document.getElementById('new-user-name').value;
+                const dept = document.getElementById('new-user-dept').value;
+                
+                if (name && dept) {
+                    const users = JSON.parse(localStorage.getItem('helpdesk_users') || '[]');
+                    users.push({name, role: 'user', department: dept});
+                    localStorage.setItem('helpdesk_users', JSON.stringify(users));
+                    this.showAlert('User added successfully!', 'success');
+                    document.getElementById('new-user-name').value = '';
+                    document.getElementById('new-user-dept').value = '';
+                }
+            }
+
+            addTechnician() {
+                const name = document.getElementById('new-tech-name').value;
+                
+                if (name) {
+                    const technicians = JSON.parse(localStorage.getItem('helpdesk_technicians') || '[]');
+                    technicians.push(name);
+                    localStorage.setItem('helpdesk_technicians', JSON.stringify(technicians));
+                    this.showAlert('Technician added successfully!', 'success');
+                    this.updateAdminTable();
+                    document.getElementById('new-tech-name').value = '';
+                }
+            }
+
+            exportToCSV() {
+                const tickets = JSON.parse(localStorage.getItem('helpdesk_tickets') || '[]');
+                const headers = ['ID', 'Name', 'Department', 'Contact', 'Machine ID', 'Priority', 'Category', 'Issue', 'Description', 'Status', 'Date Created', 'Assigned To', 'Resolution Notes'];
+                
+                const csvContent = [
+                    headers.join(','),
+                    ...tickets.map(ticket => [
+                        ticket.id,
+                        ticket.name,
+                        ticket.department,
+                        ticket.contact,
+                        ticket.machineId || '',
+                        ticket.priority,
+                        ticket.category,
+                        ticket.issue,
+                        `"${ticket.description}"`,
+                        ticket.status,
+                        new Date(ticket.dateCreated).toLocaleDateString(),
+                        ticket.assignedTo || '',
+                        `"${ticket.resolutionNotes || ''}"`
+                    ].join(','))
+                ].join('\n');
+
+                this.downloadFile(csvContent, 'helpdesk-tickets.csv', 'text/csv');
+            }
+
+            exportToPDF() {
+                this.showAlert('PDF export functionality would require additional libraries. CSV export is available.', 'error');
+            }
+
+            downloadFile(content, filename, mimeType) {
+                const blob = new Blob([content], {type: mimeType});
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = filename;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                window.URL.revokeObjectURL(url);
+            }
+
+            showAlert(message, type) {
+                // Create alert element
+                const alert = document.createElement('div');
+                alert.className = `alert alert-${type === 'success' ? 'success' : 'error'}`;
+                alert.textContent = message;
+                
+                // Insert at top of current section
+                const activeSection = document.querySelector('.section.active .container');
+                activeSection.insertBefore(alert, activeSection.firstChild);
+                
+                // Remove after 3 seconds
+                setTimeout(() => {
+                    alert.remove();
+                }, 3000);
+            }
+        }
+
+        // Initialize the helpdesk system
+        let helpdesk;
+        document.addEventListener('DOMContentLoaded', () => {
+            helpdesk = new HelpdeskSystem();
+        });
+    </script>
+</body>
+</html>
