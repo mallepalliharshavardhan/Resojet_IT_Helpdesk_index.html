@@ -1,0 +1,1735 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resojet IT Helpdesk</title>
+    <style>
+:root {
+  /* Professional IT Helpdesk Color Scheme */
+  --color-primary: #2563eb;
+  --color-primary-dark: #1d4ed8;
+  --color-secondary: #64748b;
+  --color-success: #059669;
+  --color-warning: #d97706;
+  --color-danger: #dc2626;
+  --color-background: #f8fafc;
+  --color-surface: #ffffff;
+  --color-border: #e2e8f0;
+  --color-text: #1e293b;
+  --color-text-muted: #64748b;
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+  --radius: 8px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: var(--color-background);
+  color: var(--color-text);
+  line-height: 1.6;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+/* Header */
+.header {
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+  box-shadow: var(--shadow-sm);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 0;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.logo h1 {
+  color: var(--color-primary);
+  font-size: 1.75rem;
+  font-weight: 700;
+}
+
+.nav {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.nav-btn {
+  padding: 0.5rem 1rem;
+  border: none;
+  background: transparent;
+  color: var(--color-text-muted);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: all 0.2s;
+  font-weight: 500;
+}
+
+.nav-btn:hover:not(:disabled) {
+  background: var(--color-background);
+  color: var(--color-text);
+}
+
+.nav-btn.active {
+  background: var(--color-primary);
+  color: white;
+}
+
+.nav-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.auth-section {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.btn {
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border: 1px solid transparent;
+}
+
+.btn--primary {
+  background: var(--color-primary);
+  color: white;
+  border-color: var(--color-primary);
+}
+
+.btn--primary:hover {
+  background: var(--color-primary-dark);
+  border-color: var(--color-primary-dark);
+}
+
+.btn--outline {
+  background: transparent;
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.btn--outline:hover {
+  background: var(--color-primary);
+  color: white;
+}
+
+.btn--success {
+  background: var(--color-success);
+  color: white;
+  border-color: var(--color-success);
+}
+
+.btn--danger {
+  background: var(--color-danger);
+  color: white;
+  border-color: var(--color-danger);
+}
+
+.user-info {
+  color: var(--color-text-muted);
+  font-weight: 500;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* Main Content */
+.main {
+  padding: 2rem 0;
+}
+
+.section {
+  display: none;
+}
+
+.section.active {
+  display: block;
+}
+
+/* Welcome Section for Non-logged Users */
+.welcome-section {
+  background: var(--color-surface);
+  padding: 2rem;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--color-border);
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.welcome-section h2 {
+  color: var(--color-primary);
+  margin-bottom: 1rem;
+}
+
+.welcome-section p {
+  color: var(--color-text-muted);
+  font-size: 1.1rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Dashboard - Admin Only */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin: 2rem 0;
+}
+
+.stat-card {
+  background: var(--color-surface);
+  padding: 1.5rem;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  text-align: center;
+  border: 1px solid var(--color-border);
+}
+
+.stat-card h3 {
+  color: var(--color-text-muted);
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.stat-number {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+/* Forms */
+.form {
+  background: var(--color-surface);
+  padding: 2rem;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--color-border);
+  margin-top: 2rem;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1rem;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: var(--color-text);
+}
+
+.form-control {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  font-size: 1rem;
+  transition: all 0.2s;
+  background: var(--color-surface);
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgb(37 99 235 / 0.1);
+}
+
+textarea.form-control {
+  min-height: 100px;
+  resize: vertical;
+}
+
+/* User Ticket Display */
+.user-tickets {
+  background: var(--color-surface);
+  padding: 2rem;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--color-border);
+  margin-top: 2rem;
+}
+
+.ticket-card {
+  background: var(--color-background);
+  padding: 1.5rem;
+  border-radius: var(--radius);
+  margin-bottom: 1rem;
+  border-left: 4px solid var(--color-primary);
+}
+
+.ticket-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.ticket-id {
+  font-weight: 600;
+  color: var(--color-primary);
+  font-size: 1.1rem;
+}
+
+.ticket-date {
+  color: var(--color-text-muted);
+  font-size: 0.875rem;
+}
+
+.ticket-details {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.detail-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.detail-label {
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+}
+
+.detail-value {
+  color: var(--color-text);
+}
+
+/* Tables - Admin Only */
+.table-container {
+  background: var(--color-surface);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--color-border);
+  margin-top: 2rem;
+}
+
+.table-header {
+  background: var(--color-background);
+  padding: 1rem;
+  border-bottom: 1px solid var(--color-border);
+  display: flex;
+  justify-content: between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.table-filters {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.table-filters select {
+  padding: 0.5rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  font-size: 0.875rem;
+}
+
+.search-box {
+  padding: 0.5rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  font-size: 0.875rem;
+  min-width: 200px;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table th,
+.table td {
+  padding: 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.table th {
+  background: var(--color-background);
+  font-weight: 600;
+  color: var(--color-text);
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.table tbody tr:hover {
+  background: var(--color-background);
+}
+
+/* Status Badges */
+.badge {
+  padding: 0.25rem 0.5rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  display: inline-block;
+}
+
+.badge--open {
+  background: rgba(239, 68, 68, 0.1);
+  color: var(--color-danger);
+}
+
+.badge--progress {
+  background: rgba(217, 119, 6, 0.1);
+  color: var(--color-warning);
+}
+
+.badge--resolved {
+  background: rgba(5, 150, 105, 0.1);
+  color: var(--color-success);
+}
+
+.badge--high {
+  background: rgba(239, 68, 68, 0.1);
+  color: var(--color-danger);
+}
+
+.badge--medium {
+  background: rgba(217, 119, 6, 0.1);
+  color: var(--color-warning);
+}
+
+.badge--low {
+  background: rgba(5, 150, 105, 0.1);
+  color: var(--color-success);
+}
+
+/* Modal */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: var(--color-surface);
+  padding: 2rem;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-md);
+  width: 90%;
+  max-width: 400px;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.modal-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: var(--color-text-muted);
+  padding: 0;
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius);
+}
+
+.close-btn:hover {
+  background: var(--color-background);
+}
+
+/* Charts - Admin Only */
+.charts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 2rem;
+  margin: 2rem 0;
+}
+
+.chart-card {
+  background: var(--color-surface);
+  padding: 1.5rem;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--color-border);
+}
+
+.chart-card h3 {
+  margin-bottom: 1rem;
+  color: var(--color-text);
+}
+
+.chart-container {
+  position: relative;
+  height: 300px;
+}
+
+/* Access Denied */
+.access-denied {
+  background: var(--color-surface);
+  padding: 2rem;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--color-border);
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.access-denied h3 {
+  color: var(--color-danger);
+  margin-bottom: 1rem;
+}
+
+.access-denied p {
+  color: var(--color-text-muted);
+  margin-bottom: 1.5rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .header-content {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .nav {
+    justify-content: center;
+  }
+
+  .auth-section {
+    justify-content: center;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .table-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .table-filters {
+    justify-content: center;
+  }
+
+  .charts-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ticket-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .ticket-details {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Print styles */
+@media print {
+  .header,
+  .auth-section,
+  .nav-btn {
+    display: none !important;
+  }
+
+  .main {
+    padding: 0;
+  }
+
+  .section {
+    display: block !important;
+  }
+}
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <h1>Resojet IT Helpdesk</h1>
+                </div>
+                <nav class="nav">
+                    <button class="nav-btn active" data-section="home">Home</button>
+                    <button class="nav-btn" data-section="submit-ticket">Submit Ticket</button>
+                    <button class="nav-btn" data-section="my-tickets">My Tickets</button>
+                    <button class="nav-btn admin-only hidden" data-section="dashboard">Dashboard</button>
+                    <button class="nav-btn admin-only hidden" data-section="ticket-tracker">Ticket Tracker</button>
+                    <button class="nav-btn admin-only hidden" data-section="analytics">Analytics</button>
+                    <button class="nav-btn admin-only hidden" data-section="admin-panel">Admin Panel</button>
+                </nav>
+                <div class="auth-section">
+                    <button id="loginBtn" class="btn btn--primary">Admin Login</button>
+                    <button id="logoutBtn" class="btn btn--outline hidden">Logout</button>
+                    <span id="userInfo" class="user-info hidden"></span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main">
+        <div class="container">
+            <!-- Home Section -->
+            <section id="home" class="section active">
+                <div class="welcome-section">
+                    <h2>Welcome to Resojet IT Helpdesk</h2>
+                    <p>Submit your IT support tickets and track their progress. Our technical team is here to help you resolve any IT issues quickly and efficiently.</p>
+                    <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                        <button class="btn btn--primary" onclick="showSection('submit-ticket')">Submit New Ticket</button>
+                        <button class="btn btn--outline" onclick="showSection('my-tickets')">View My Tickets</button>
+                    </div>
+                </div>
+
+                <div class="form">
+                    <h3 style="margin-bottom: 1rem;">Quick Ticket Submission</h3>
+                    <p style="color: var(--color-text-muted); margin-bottom: 1.5rem;">For faster service, you can quickly submit a ticket using the form below or click "Submit New Ticket" for detailed options.</p>
+                    <form id="quickTicketForm">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="quickName">Your Name *</label>
+                                <input type="text" id="quickName" class="form-control" required placeholder="Enter your full name">
+                            </div>
+                            <div class="form-group">
+                                <label for="quickEmail">Email Address *</label>
+                                <input type="email" id="quickEmail" class="form-control" required placeholder="your.email@company.com">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="quickIssue">Describe Your Issue *</label>
+                            <textarea id="quickIssue" class="form-control" rows="3" required placeholder="Please describe your IT issue..."></textarea>
+                        </div>
+                        <button type="submit" class="btn btn--primary">Submit Quick Ticket</button>
+                    </form>
+                </div>
+            </section>
+
+            <!-- Submit Ticket Section -->
+            <section id="submit-ticket" class="section">
+                <h2>Submit New Ticket</h2>
+                <form class="form" id="ticketForm">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="name">Name *</label>
+                            <input type="text" id="name" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="department">Department *</label>
+                            <select id="department" class="form-control" required>
+                                <option value="">Select Department</option>
+                                <option value="Production">Production</option>
+                                <option value="Quality Control">Quality Control</option>
+                                <option value="Maintenance">Maintenance</option>
+                                <option value="Engineering">Engineering</option>
+                                <option value="IT Support">IT Support</option>
+                                <option value="Admin">Admin</option>
+                                <option value="Logistics">Logistics</option>
+                                <option value="Safety">Safety</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="contact">Contact Info *</label>
+                            <input type="email" id="contact" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="machine">Machine/Workstation ID</label>
+                            <input type="text" id="machine" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="priority">Priority Level *</label>
+                            <select id="priority" class="form-control" required>
+                                <option value="">Select Priority</option>
+                                <option value="Low">Low</option>
+                                <option value="Medium">Medium</option>
+                                <option value="High">High</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="category">Category *</label>
+                            <select id="category" class="form-control" required>
+                                <option value="">Select Category</option>
+                                <option value="Hardware">Hardware</option>
+                                <option value="Software">Software</option>
+                                <option value="Network">Network</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="requestType">Request Type *</label>
+                            <select id="requestType" class="form-control" required>
+                                <option value="">Select Request Type</option>
+                                <option value="Service Request">Service Request</option>
+                                <option value="Issue Report">Issue Report</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="issueSpec">Issue Specification *</label>
+                            <select id="issueSpec" class="form-control" required>
+                                <option value="">Select category first</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Description *</label>
+                        <textarea id="description" class="form-control" rows="4" required placeholder="Please describe the issue in detail..."></textarea>
+                    </div>
+                    <button type="submit" class="btn btn--primary">Submit Ticket</button>
+                </form>
+            </section>
+
+            <!-- My Tickets Section -->
+            <section id="my-tickets" class="section">
+                <h2>My Tickets</h2>
+                <div id="userTicketsContainer">
+                    <p style="color: var(--color-text-muted); text-align: center; padding: 2rem;">
+                        Enter your email address to view your tickets
+                    </p>
+                    <div class="form" style="max-width: 400px; margin: 0 auto;">
+                        <div class="form-group">
+                            <label for="userEmail">Your Email Address</label>
+                            <input type="email" id="userEmail" class="form-control" placeholder="your.email@company.com">
+                        </div>
+                        <button class="btn btn--primary" onclick="loadUserTickets()" style="width: 100%;">View My Tickets</button>
+                    </div>
+                </div>
+                <div id="userTicketsList" class="hidden">
+                    <div style="display: flex; justify-content: between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap;">
+                        <h3 id="ticketCountDisplay">Your Tickets</h3>
+                        <button class="btn btn--outline" onclick="clearUserTickets()">Enter Different Email</button>
+                    </div>
+                    <div id="ticketsDisplay"></div>
+                </div>
+            </section>
+
+            <!-- Dashboard Section - Admin Only -->
+            <section id="dashboard" class="section admin-section">
+                <h2>Dashboard</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h3>Tickets Today</h3>
+                        <span class="stat-number" id="ticketsToday">0</span>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Resolved Today</h3>
+                        <span class="stat-number" id="resolvedToday">0</span>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Open Tickets</h3>
+                        <span class="stat-number" id="openTickets">0</span>
+                    </div>
+                    <div class="stat-card">
+                        <h3>In Progress</h3>
+                        <span class="stat-number" id="inProgress">0</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Ticket Tracker Section - Admin Only -->
+            <section id="ticket-tracker" class="section admin-section">
+                <h2>Ticket Tracker</h2>
+                <div class="table-container">
+                    <div class="table-header">
+                        <div class="table-filters">
+                            <select id="statusFilter">
+                                <option value="">All Status</option>
+                                <option value="Open">Open</option>
+                                <option value="In-progress">In-progress</option>
+                                <option value="Resolved">Resolved</option>
+                            </select>
+                            <select id="categoryFilter">
+                                <option value="">All Categories</option>
+                                <option value="Hardware">Hardware</option>
+                                <option value="Software">Software</option>
+                                <option value="Network">Network</option>
+                            </select>
+                            <select id="departmentFilter">
+                                <option value="">All Departments</option>
+                                <option value="Production">Production</option>
+                                <option value="Quality Control">Quality Control</option>
+                                <option value="Maintenance">Maintenance</option>
+                                <option value="Engineering">Engineering</option>
+                                <option value="IT Support">IT Support</option>
+                                <option value="Admin">Admin</option>
+                                <option value="Logistics">Logistics</option>
+                                <option value="Safety">Safety</option>
+                            </select>
+                            <input type="text" id="searchBox" class="search-box" placeholder="Search tickets...">
+                        </div>
+                        <div>
+                            <button class="btn btn--outline" onclick="exportCSV()">Export CSV</button>
+                            <button class="btn btn--outline" onclick="exportPDF()">Export PDF</button>
+                        </div>
+                    </div>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Department</th>
+                                <th>Category</th>
+                                <th>Issue</th>
+                                <th>Priority</th>
+                                <th>Status</th>
+                                <th>Date Created</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="ticketsTableBody">
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Analytics Section - Admin Only -->
+            <section id="analytics" class="section admin-section">
+                <h2>Analytics & Reports</h2>
+                <div class="charts-grid">
+                    <div class="chart-card">
+                        <h3>Weekly Resolution Rate</h3>
+                        <div class="chart-container">
+                            <canvas id="resolutionChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="chart-card">
+                        <h3>Category Distribution</h3>
+                        <div class="chart-container">
+                            <canvas id="categoryChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="chart-card">
+                        <h3>Priority Distribution</h3>
+                        <div class="chart-container">
+                            <canvas id="priorityChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="chart-card">
+                        <h3>Department Breakdown</h3>
+                        <div class="chart-container">
+                            <canvas id="departmentChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Admin Panel Section - Admin Only -->
+            <section id="admin-panel" class="section admin-section">
+                <h2>Admin Panel</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h3>Total Users</h3>
+                        <span class="stat-number" id="totalUsers">0</span>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Active Technicians</h3>
+                        <span class="stat-number" id="totalTechnicians">4</span>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Total Tickets</h3>
+                        <span class="stat-number" id="totalTickets">0</span>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Avg Resolution Time</h3>
+                        <span class="stat-number" id="avgResolution">2.5</span>
+                    </div>
+                </div>
+
+                <h3 style="margin: 2rem 0 1rem 0;">Ticket Management</h3>
+                <div class="table-container">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>User</th>
+                                <th>Email</th>
+                                <th>Category</th>
+                                <th>Issue</th>
+                                <th>Status</th>
+                                <th>Assigned To</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="adminTicketsTableBody">
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="form-grid" style="margin-top: 2rem;">
+                    <div class="form">
+                        <h3>Add User/Department</h3>
+                        <div class="form-group">
+                            <label for="userName">User Name</label>
+                            <input type="text" id="userName" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="userDepartment">Department</label>
+                            <select id="userDepartment" class="form-control">
+                                <option value="">Select Department</option>
+                                <option value="Production">Production</option>
+                                <option value="Quality Control">Quality Control</option>
+                                <option value="Maintenance">Maintenance</option>
+                                <option value="Engineering">Engineering</option>
+                                <option value="IT Support">IT Support</option>
+                                <option value="Admin">Admin</option>
+                                <option value="Logistics">Logistics</option>
+                                <option value="Safety">Safety</option>
+                            </select>
+                        </div>
+                        <button class="btn btn--primary" onclick="addUser()">Add User</button>
+                    </div>
+                    <div class="form">
+                        <h3>Add Technician</h3>
+                        <div class="form-group">
+                            <label for="technicianName">Technician Name</label>
+                            <input type="text" id="technicianName" class="form-control">
+                        </div>
+                        <button class="btn btn--primary" onclick="addTechnician()">Add Technician</button>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Admin Login</h3>
+                <button class="close-btn" onclick="closeLoginModal()">&times;</button>
+            </div>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="loginUsername">Username</label>
+                    <input type="text" id="loginUsername" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" class="form-control" required>
+                </div>
+                <button type="submit" class="btn btn--primary" style="width: 100%;">Login</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+// Resojet IT Helpdesk Application - Updated with User Restrictions
+class HelpdeskApp {
+    constructor() {
+        this.currentUser = null;
+        this.isAdmin = false;
+        this.tickets = [];
+        this.users = [];
+        this.technicians = ['John Doe', 'Jane Smith', 'Mike Wilson', 'Tech Team'];
+        this.charts = {};
+        this.currentUserEmail = null;
+
+        // Sample data
+        this.sampleData = {
+            tickets: [
+                {
+                    id: "TK001",
+                    name: "John Smith",
+                    department: "Production",
+                    contact: "john.smith@resojet.com",
+                    machine: "WS-001",
+                    category: "Hardware",
+                    issue: "Printer malfunction",
+                    description: "Printer not responding to print commands",
+                    requestType: "Issue Report",
+                    priority: "High",
+                    status: "Open",
+                    dateCreated: "2025-10-01",
+                    assignedTo: "Tech Team"
+                },
+                {
+                    id: "TK002", 
+                    name: "Sarah Johnson",
+                    department: "IT Support",
+                    contact: "sarah.johnson@resojet.com",
+                    machine: "WS-002",
+                    category: "Software",
+                    issue: "Software installation",
+                    description: "Need to install Microsoft Office 365",
+                    requestType: "Service Request",
+                    priority: "Medium",
+                    status: "In-progress",
+                    dateCreated: "2025-10-02",
+                    assignedTo: "John Doe"
+                },
+                {
+                    id: "TK003",
+                    name: "Mike Davis",
+                    department: "Engineering",
+                    contact: "mike.davis@resojet.com",
+                    machine: "WS-003",
+                    category: "Network",
+                    issue: "Network Connectivity",
+                    description: "Unable to connect to company network",
+                    requestType: "Issue Report",
+                    priority: "High",
+                    status: "Resolved",
+                    dateCreated: "2025-09-30",
+                    assignedTo: "Jane Smith"
+                }
+            ]
+        };
+
+        this.issueSpecs = {
+            "Hardware": ["Computer not starting", "Printer malfunction", "Monitor issues", "Keyboard/Mouse problems", "Server hardware failure"],
+            "Software": ["Software installation", "Application crashes", "License issues", "Update problems", "Performance issues"],
+            "Network": ["Network Connectivity", "Wi-Fi issues", "VPN problems", "Email setup", "Internet speed issues"]
+        };
+
+        this.init();
+    }
+
+    init() {
+        this.loadSampleData();
+        this.bindEvents();
+        this.updateUI();
+    }
+
+    loadSampleData() {
+        this.tickets = [...this.sampleData.tickets];
+        localStorage.setItem('helpdeskTickets', JSON.stringify(this.tickets));
+    }
+
+    bindEvents() {
+        // Navigation
+        document.querySelectorAll('.nav-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const section = e.target.dataset.section;
+                this.showSection(section);
+                this.setActiveNav(e.target);
+            });
+        });
+
+        // Login/Logout
+        document.getElementById('loginBtn').addEventListener('click', () => this.showLoginModal());
+        document.getElementById('logoutBtn').addEventListener('click', () => this.logout());
+        document.getElementById('loginForm').addEventListener('submit', (e) => this.handleLogin(e));
+
+        // Ticket forms
+        document.getElementById('ticketForm').addEventListener('submit', (e) => this.handleTicketSubmit(e));
+        document.getElementById('quickTicketForm').addEventListener('submit', (e) => this.handleQuickTicketSubmit(e));
+        document.getElementById('category').addEventListener('change', (e) => this.updateIssueSpecs(e.target.value));
+
+        // Admin-only filters
+        if (document.getElementById('statusFilter')) {
+            document.getElementById('statusFilter').addEventListener('change', () => this.filterTickets());
+            document.getElementById('categoryFilter').addEventListener('change', () => this.filterTickets());
+            document.getElementById('departmentFilter').addEventListener('change', () => this.filterTickets());
+            document.getElementById('searchBox').addEventListener('input', () => this.filterTickets());
+        }
+
+        // Modal close
+        document.getElementById('loginModal').addEventListener('click', (e) => {
+            if (e.target.id === 'loginModal') this.closeLoginModal();
+        });
+    }
+
+    showSection(sectionId) {
+        // Check if user is trying to access admin sections
+        if (!this.isAdmin && ['dashboard', 'ticket-tracker', 'analytics', 'admin-panel'].includes(sectionId)) {
+            alert('This section requires admin access. Please login as admin.');
+            return;
+        }
+
+        document.querySelectorAll('.section').forEach(section => {
+            section.classList.remove('active');
+        });
+
+        const targetSection = document.getElementById(sectionId);
+        if (targetSection) {
+            targetSection.classList.add('active');
+        }
+
+        // Special handling for admin sections
+        if (sectionId === 'analytics' && this.isAdmin) {
+            setTimeout(() => this.updateCharts(), 100);
+        }
+
+        if (sectionId === 'dashboard' && this.isAdmin) {
+            this.updateDashboard();
+        }
+
+        if (sectionId === 'ticket-tracker' && this.isAdmin) {
+            this.renderTicketsTable();
+        }
+
+        if (sectionId === 'admin-panel' && this.isAdmin) {
+            this.renderAdminTicketsTable();
+        }
+    }
+
+    setActiveNav(activeBtn) {
+        document.querySelectorAll('.nav-btn').forEach(btn => {
+            btn.classList.remove('active');
+        });
+        activeBtn.classList.add('active');
+    }
+
+    showLoginModal() {
+        document.getElementById('loginModal').classList.remove('hidden');
+    }
+
+    closeLoginModal() {
+        document.getElementById('loginModal').classList.add('hidden');
+        document.getElementById('loginForm').reset();
+    }
+
+    async handleLogin(e) {
+        e.preventDefault();
+        const username = document.getElementById('loginUsername').value;
+        const password = document.getElementById('loginPassword').value;
+
+        // Simple admin credentials (in real app, use proper authentication)
+        if (username === 'admin' && password === 'admin123') {
+            this.currentUser = 'Admin';
+            this.isAdmin = true;
+            this.updateUI();
+            this.closeLoginModal();
+            alert('Login successful! Admin features are now available.');
+            // Show dashboard after login
+            this.showSection('dashboard');
+            this.setActiveNav(document.querySelector('[data-section="dashboard"]'));
+        } else {
+            alert('Invalid credentials!');
+        }
+    }
+
+    logout() {
+        this.currentUser = null;
+        this.isAdmin = false;
+        this.updateUI();
+        this.showSection('home');
+        this.setActiveNav(document.querySelector('[data-section="home"]'));
+        alert('Logged out successfully!');
+    }
+
+    updateUI() {
+        const loginBtn = document.getElementById('loginBtn');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const userInfo = document.getElementById('userInfo');
+        const adminOnlyElements = document.querySelectorAll('.admin-only');
+
+        if (this.isAdmin) {
+            loginBtn.classList.add('hidden');
+            logoutBtn.classList.remove('hidden');
+            userInfo.classList.remove('hidden');
+            userInfo.textContent = `Welcome, ${this.currentUser}`;
+
+            // Show admin navigation items
+            adminOnlyElements.forEach(el => el.classList.remove('hidden'));
+        } else {
+            loginBtn.classList.remove('hidden');
+            logoutBtn.classList.add('hidden');
+            userInfo.classList.add('hidden');
+
+            // Hide admin navigation items
+            adminOnlyElements.forEach(el => el.classList.add('hidden'));
+        }
+
+        // Update dashboard if admin is logged in
+        if (this.isAdmin) {
+            this.updateDashboard();
+        }
+    }
+
+    updateIssueSpecs(category) {
+        const issueSpecSelect = document.getElementById('issueSpec');
+        issueSpecSelect.innerHTML = '<option value="">Select issue specification</option>';
+
+        if (category && this.issueSpecs[category]) {
+            this.issueSpecs[category].forEach(spec => {
+                const option = document.createElement('option');
+                option.value = spec;
+                option.textContent = spec;
+                issueSpecSelect.appendChild(option);
+            });
+        }
+    }
+
+    handleQuickTicketSubmit(e) {
+        e.preventDefault();
+
+        const ticket = {
+            id: 'TK' + String(this.tickets.length + 1).padStart(3, '0'),
+            name: document.getElementById('quickName').value,
+            department: 'General',
+            contact: document.getElementById('quickEmail').value,
+            machine: '',
+            category: 'General',
+            requestType: 'Issue Report',
+            issue: 'General Issue',
+            description: document.getElementById('quickIssue').value,
+            priority: 'Medium',
+            status: 'Open',
+            dateCreated: new Date().toISOString().split('T')[0],
+            assignedTo: 'Unassigned'
+        };
+
+        this.tickets.push(ticket);
+        this.saveTickets();
+        this.updateDashboard();
+        e.target.reset();
+        alert('Quick ticket submitted successfully! Ticket ID: ' + ticket.id + '\n\nUse your email address to track this ticket in "My Tickets" section.');
+    }
+
+    handleTicketSubmit(e) {
+        e.preventDefault();
+
+        const ticket = {
+            id: 'TK' + String(this.tickets.length + 1).padStart(3, '0'),
+            name: document.getElementById('name').value,
+            department: document.getElementById('department').value,
+            contact: document.getElementById('contact').value,
+            machine: document.getElementById('machine').value,
+            category: document.getElementById('category').value,
+            requestType: document.getElementById('requestType').value,
+            issue: document.getElementById('issueSpec').value,
+            description: document.getElementById('description').value,
+            priority: document.getElementById('priority').value,
+            status: 'Open',
+            dateCreated: new Date().toISOString().split('T')[0],
+            assignedTo: 'Unassigned'
+        };
+
+        this.tickets.push(ticket);
+        this.saveTickets();
+        this.updateDashboard();
+        e.target.reset();
+        alert('Ticket submitted successfully! Ticket ID: ' + ticket.id + '\n\nUse your email address to track this ticket in "My Tickets" section.');
+    }
+
+    loadUserTickets() {
+        const email = document.getElementById('userEmail').value.trim();
+        if (!email) {
+            alert('Please enter your email address');
+            return;
+        }
+
+        this.currentUserEmail = email;
+        const userTickets = this.tickets.filter(ticket => 
+            ticket.contact.toLowerCase() === email.toLowerCase()
+        );
+
+        const container = document.getElementById('userTicketsContainer');
+        const ticketsList = document.getElementById('userTicketsList');
+        const ticketsDisplay = document.getElementById('ticketsDisplay');
+        const countDisplay = document.getElementById('ticketCountDisplay');
+
+        if (userTickets.length === 0) {
+            alert('No tickets found for this email address');
+            return;
+        }
+
+        container.classList.add('hidden');
+        ticketsList.classList.remove('hidden');
+        countDisplay.textContent = `Your Tickets (${userTickets.length})`;
+
+        ticketsDisplay.innerHTML = '';
+        userTickets.forEach(ticket => {
+            const ticketCard = document.createElement('div');
+            ticketCard.className = 'ticket-card';
+            ticketCard.innerHTML = `
+                <div class="ticket-header">
+                    <span class="ticket-id">${ticket.id}</span>
+                    <span class="ticket-date">${ticket.dateCreated}</span>
+                </div>
+                <div class="ticket-details">
+                    <div class="detail-item">
+                        <span class="detail-label">Status</span>
+                        <span class="detail-value">
+                            <span class="badge badge--${ticket.status.toLowerCase().replace('-', '')}">${ticket.status}</span>
+                        </span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Priority</span>
+                        <span class="detail-value">
+                            <span class="badge badge--${ticket.priority.toLowerCase()}">${ticket.priority}</span>
+                        </span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Category</span>
+                        <span class="detail-value">${ticket.category}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Assigned To</span>
+                        <span class="detail-value">${ticket.assignedTo}</span>
+                    </div>
+                </div>
+                <div class="detail-item" style="margin-top: 1rem;">
+                    <span class="detail-label">Issue</span>
+                    <span class="detail-value" style="font-weight: 500;">${ticket.issue}</span>
+                </div>
+                <div class="detail-item" style="margin-top: 0.5rem;">
+                    <span class="detail-label">Description</span>
+                    <span class="detail-value">${ticket.description}</span>
+                </div>
+            `;
+            ticketsDisplay.appendChild(ticketCard);
+        });
+    }
+
+    clearUserTickets() {
+        const container = document.getElementById('userTicketsContainer');
+        const ticketsList = document.getElementById('userTicketsList');
+
+        container.classList.remove('hidden');
+        ticketsList.classList.add('hidden');
+        document.getElementById('userEmail').value = '';
+        this.currentUserEmail = null;
+    }
+
+    saveTickets() {
+        localStorage.setItem('helpdeskTickets', JSON.stringify(this.tickets));
+    }
+
+    updateDashboard() {
+        if (!this.isAdmin) return;
+
+        const today = new Date().toISOString().split('T')[0];
+        const ticketsToday = this.tickets.filter(t => t.dateCreated === today).length;
+        const resolvedToday = this.tickets.filter(t => t.dateCreated === today && t.status === 'Resolved').length;
+        const openTickets = this.tickets.filter(t => t.status === 'Open').length;
+        const inProgress = this.tickets.filter(t => t.status === 'In-progress').length;
+
+        const ticketsTodayEl = document.getElementById('ticketsToday');
+        const resolvedTodayEl = document.getElementById('resolvedToday');
+        const openTicketsEl = document.getElementById('openTickets');
+        const inProgressEl = document.getElementById('inProgress');
+
+        if (ticketsTodayEl) ticketsTodayEl.textContent = ticketsToday;
+        if (resolvedTodayEl) resolvedTodayEl.textContent = resolvedToday;
+        if (openTicketsEl) openTicketsEl.textContent = openTickets;
+        if (inProgressEl) inProgressEl.textContent = inProgress;
+
+        // Admin stats
+        const totalUsersEl = document.getElementById('totalUsers');
+        const totalTechniciansEl = document.getElementById('totalTechnicians');
+        const totalTicketsEl = document.getElementById('totalTickets');
+
+        if (totalUsersEl) totalUsersEl.textContent = this.users.length;
+        if (totalTechniciansEl) totalTechniciansEl.textContent = this.technicians.length;
+        if (totalTicketsEl) totalTicketsEl.textContent = this.tickets.length;
+    }
+
+    renderTicketsTable() {
+        if (!this.isAdmin) return;
+
+        const tbody = document.getElementById('ticketsTableBody');
+        if (!tbody) return;
+
+        tbody.innerHTML = '';
+
+        this.getFilteredTickets().forEach(ticket => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${ticket.id}</td>
+                <td>${ticket.name}</td>
+                <td>${ticket.contact}</td>
+                <td>${ticket.department}</td>
+                <td>${ticket.category}</td>
+                <td>${ticket.issue}</td>
+                <td><span class="badge badge--${ticket.priority.toLowerCase()}">${ticket.priority}</span></td>
+                <td><span class="badge badge--${ticket.status.toLowerCase().replace('-', '')}">${ticket.status}</span></td>
+                <td>${ticket.dateCreated}</td>
+                <td>
+                    <button class="btn btn--outline" onclick="viewTicket('${ticket.id}')">View</button>
+                </td>
+            `;
+            tbody.appendChild(row);
+        });
+    }
+
+    renderAdminTicketsTable() {
+        if (!this.isAdmin) return;
+
+        const tbody = document.getElementById('adminTicketsTableBody');
+        if (!tbody) return;
+
+        tbody.innerHTML = '';
+
+        this.tickets.forEach(ticket => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${ticket.id}</td>
+                <td>${ticket.name}</td>
+                <td>${ticket.contact}</td>
+                <td>${ticket.category}</td>
+                <td>${ticket.issue}</td>
+                <td><span class="badge badge--${ticket.status.toLowerCase().replace('-', '')}">${ticket.status}</span></td>
+                <td>
+                    <select onchange="assignTechnician('${ticket.id}', this.value)" class="form-control" style="min-width: 120px;">
+                        <option value="Unassigned" ${ticket.assignedTo === 'Unassigned' ? 'selected' : ''}>Unassigned</option>
+                        ${this.technicians.map(tech => 
+                            `<option value="${tech}" ${ticket.assignedTo === tech ? 'selected' : ''}>${tech}</option>`
+                        ).join('')}
+                    </select>
+                </td>
+                <td>
+                    <select onchange="updateTicketStatus('${ticket.id}', this.value)" class="form-control" style="min-width: 100px;">
+                        <option value="Open" ${ticket.status === 'Open' ? 'selected' : ''}>Open</option>
+                        <option value="In-progress" ${ticket.status === 'In-progress' ? 'selected' : ''}>In-progress</option>
+                        <option value="Resolved" ${ticket.status === 'Resolved' ? 'selected' : ''}>Resolved</option>
+                    </select>
+                </td>
+            `;
+            tbody.appendChild(row);
+        });
+    }
+
+    getFilteredTickets() {
+        if (!this.isAdmin) return [];
+
+        let filtered = [...this.tickets];
+
+        const statusFilter = document.getElementById('statusFilter')?.value;
+        const categoryFilter = document.getElementById('categoryFilter')?.value;
+        const departmentFilter = document.getElementById('departmentFilter')?.value;
+        const searchTerm = document.getElementById('searchBox')?.value?.toLowerCase();
+
+        if (statusFilter) {
+            filtered = filtered.filter(ticket => ticket.status === statusFilter);
+        }
+
+        if (categoryFilter) {
+            filtered = filtered.filter(ticket => ticket.category === categoryFilter);
+        }
+
+        if (departmentFilter) {
+            filtered = filtered.filter(ticket => ticket.department === departmentFilter);
+        }
+
+        if (searchTerm) {
+            filtered = filtered.filter(ticket => 
+                ticket.id.toLowerCase().includes(searchTerm) ||
+                ticket.name.toLowerCase().includes(searchTerm) ||
+                ticket.contact.toLowerCase().includes(searchTerm) ||
+                ticket.issue.toLowerCase().includes(searchTerm) ||
+                ticket.description.toLowerCase().includes(searchTerm)
+            );
+        }
+
+        return filtered;
+    }
+
+    filterTickets() {
+        if (!this.isAdmin) return;
+        this.renderTicketsTable();
+    }
+
+    setupCharts() {
+        if (!this.isAdmin) return;
+
+        // Resolution Rate Chart
+        const resolutionCtx = document.getElementById('resolutionChart')?.getContext('2d');
+        if (resolutionCtx) {
+            this.charts.resolution = new Chart(resolutionCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                    datasets: [{
+                        label: 'Resolved Tickets',
+                        data: [12, 19, 3, 5, 2, 8, 15],
+                        borderColor: '#2563eb',
+                        backgroundColor: 'rgba(37, 99, 235, 0.1)',
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+
+        // Category Chart
+        const categoryCtx = document.getElementById('categoryChart')?.getContext('2d');
+        if (categoryCtx) {
+            this.charts.category = new Chart(categoryCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Hardware', 'Software', 'Network'],
+                    datasets: [{
+                        data: [0, 0, 0],
+                        backgroundColor: ['#dc2626', '#d97706', '#059669']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false
+                }
+            });
+        }
+
+        // Priority Chart
+        const priorityCtx = document.getElementById('priorityChart')?.getContext('2d');
+        if (priorityCtx) {
+            this.charts.priority = new Chart(priorityCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['High', 'Medium', 'Low'],
+                    datasets: [{
+                        label: 'Tickets by Priority',
+                        data: [0, 0, 0],
+                        backgroundColor: ['#dc2626', '#d97706', '#059669']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+
+        // Department Chart
+        const departmentCtx = document.getElementById('departmentChart')?.getContext('2d');
+        if (departmentCtx) {
+            this.charts.department = new Chart(departmentCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Production', 'IT Support', 'Engineering', 'Maintenance'],
+                    datasets: [{
+                        label: 'Tickets by Department',
+                        data: [0, 0, 0, 0],
+                        backgroundColor: '#2563eb'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+
+        this.updateCharts();
+    }
+
+    updateCharts() {
+        if (!this.isAdmin || !this.charts.category) return;
+
+        // Update category chart
+        const categoryData = [
+            this.tickets.filter(t => t.category === 'Hardware').length,
+            this.tickets.filter(t => t.category === 'Software').length,
+            this.tickets.filter(t => t.category === 'Network').length
+        ];
+        this.charts.category.data.datasets[0].data = categoryData;
+        this.charts.category.update();
+
+        // Update priority chart
+        if (this.charts.priority) {
+            const priorityData = [
+                this.tickets.filter(t => t.priority === 'High').length,
+                this.tickets.filter(t => t.priority === 'Medium').length,
+                this.tickets.filter(t => t.priority === 'Low').length
+            ];
+            this.charts.priority.data.datasets[0].data = priorityData;
+            this.charts.priority.update();
+        }
+
+        // Update department chart
+        if (this.charts.department) {
+            const departments = ['Production', 'IT Support', 'Engineering', 'Maintenance'];
+            const departmentData = departments.map(dept => 
+                this.tickets.filter(t => t.department === dept).length
+            );
+            this.charts.department.data.datasets[0].data = departmentData;
+            this.charts.department.update();
+        }
+    }
+}
+
+// Global functions
+function viewTicket(ticketId) {
+    const ticket = app.tickets.find(t => t.id === ticketId);
+    if (ticket) {
+        alert(`Ticket Details:\n\nID: ${ticket.id}\nName: ${ticket.name}\nEmail: ${ticket.contact}\nDepartment: ${ticket.department}\nCategory: ${ticket.category}\nIssue: ${ticket.issue}\nDescription: ${ticket.description}\nPriority: ${ticket.priority}\nStatus: ${ticket.status}\nCreated: ${ticket.dateCreated}\nAssigned to: ${ticket.assignedTo}`);
+    }
+}
+
+function assignTechnician(ticketId, technician) {
+    if (!app.isAdmin) return;
+    const ticket = app.tickets.find(t => t.id === ticketId);
+    if (ticket) {
+        ticket.assignedTo = technician;
+        app.saveTickets();
+        app.updateDashboard();
+        app.renderTicketsTable();
+    }
+}
+
+function updateTicketStatus(ticketId, status) {
+    if (!app.isAdmin) return;
+    const ticket = app.tickets.find(t => t.id === ticketId);
+    if (ticket) {
+        ticket.status = status;
+        app.saveTickets();
+        app.updateDashboard();
+        app.renderTicketsTable();
+        app.updateCharts();
+    }
+}
+
+function addUser() {
+    if (!app.isAdmin) return;
+    const name = document.getElementById('userName').value;
+    const department = document.getElementById('userDepartment').value;
+
+    if (name && department) {
+        app.users.push({ name, department });
+        document.getElementById('userName').value = '';
+        document.getElementById('userDepartment').value = '';
+        app.updateDashboard();
+        alert('User added successfully!');
+    }
+}
+
+function addTechnician() {
+    if (!app.isAdmin) return;
+    const name = document.getElementById('technicianName').value;
+
+    if (name) {
+        app.technicians.push(name);
+        document.getElementById('technicianName').value = '';
+        app.updateDashboard();
+        app.renderAdminTicketsTable();
+        alert('Technician added successfully!');
+    }
+}
+
+function exportCSV() {
+    if (!app.isAdmin) return;
+    const tickets = app.getFilteredTickets();
+    let csv = 'ID,Name,Email,Department,Category,Issue,Priority,Status,Date Created,Assigned To\n';
+
+    tickets.forEach(ticket => {
+        csv += `${ticket.id},${ticket.name},${ticket.contact},${ticket.department},${ticket.category},${ticket.issue},${ticket.priority},${ticket.status},${ticket.dateCreated},${ticket.assignedTo}\n`;
+    });
+
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'tickets.csv';
+    a.click();
+    window.URL.revokeObjectURL(url);
+}
+
+function exportPDF() {
+    if (!app.isAdmin) return;
+    window.print();
+}
+
+function showSection(sectionName) {
+    app.showSection(sectionName);
+    app.setActiveNav(document.querySelector(`[data-section="${sectionName}"]`));
+}
+
+function loadUserTickets() {
+    app.loadUserTickets();
+}
+
+function clearUserTickets() {
+    app.clearUserTickets();
+}
+
+// Initialize the application
+const app = new HelpdeskApp();
+
+// Setup charts after DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
+    // Delay chart setup to ensure elements exist
+    setTimeout(() => {
+        if (app.isAdmin) {
+            app.setupCharts();
+        }
+    }, 500);
+});
+    </script>
+</body>
+</html>
